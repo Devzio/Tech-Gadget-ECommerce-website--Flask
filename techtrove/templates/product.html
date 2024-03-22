@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block main %}
+{% if not categoryName %}
+<!-- Display Products for Search Product Section -->
+	{% if search_product %}
+  <section class="container-xl py-2 my-5">
+		<h1>Your search result:</h1>
+    <div class="row">
+      {% for product in search_product %}
+      <div class="col-6 col-lg-3 ">
+        <div class="card product bg-greylite" >
+          <a href="{{ url_for('main.productDetails', productid=product.id) }}" class="td-none">
+            <div class="card-grey product">
+              <div class="img-wrapper">
+                <img class="card-img-top" src="{{url_for('static', filename='img/'+product.image)}}" alt="Card image cap">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <h6>{{ "$%.2f"|format(product.price) }}</h6>
+                <div class="d-flex">
+                  {% if product.rating|int == 1 %}
+                    <span class="material-icons icon-star">star_rate</span>
+                  {% elif product.rating|int == 2 %}
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                  {% elif product.rating|int == 3 %}
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                  {% elif product.rating|int == 4 %}
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                  {% elif product.rating|int == 5 %}
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </a>
+          <form action="{{ url_for('main.order') }}">
+              <input type="hidden" id="product_id" name="product_id" value="{{ product.id }}">
+              <input class="btn btn-primary btn-add" type="submit" value="Add to Cart">
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+	{% else %}
+
+  <!-- No Items found message -->
+	<section class="container-xl py-2 my-5">
+		<h1 class="m-auto text-center">No Items Found</h1>
+	</section>
+	{% endif %}
+{% endif %}
+
+<!-- Display Products for Product Category Section -->
+<section class="container-xl py-5">
+	<h1 class="my-3">{{ categoryName }}</h1>
+	<div class="row">
+			{% for product in products %}
+			<div class="col-6 col-lg-3 ">
+				<div class="card product bg-greylite" >
+					<a href="{{ url_for('main.productDetails', productid=product.id) }}" class="td-none">
+						<div class="card-grey product">
+							<div class="img-wrapper">
+								<img class="card-img-top" src="{{url_for('static', filename='img/'+product.image)}}" alt="Card image cap">
+							</div>
+							<div class="card-body">
+								<h5 class="card-title">{{ product.name }}</h5>
+								<h6>{{ "$%.2f"|format(product.price) }}</h6>
+								<div class="d-flex">
+									{% if product.rating|int == 1 %}
+                    <span class="material-icons icon-star">star_rate</span>
+                  {% elif product.rating|int == 2 %}
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                  {% elif product.rating|int == 3 %}
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                  {% elif product.rating|int == 4 %}
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                  {% elif product.rating|int == 5 %}
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                    <span class="material-icons icon-star">star_rate</span>
+                  {% endif %}
+								</div>
+							</div>
+						</div>
+					</a>
+					<form action="{{ url_for('main.order') }}">
+						<input type="hidden" id="product_id" name="product_id" value="{{ product.id }}">
+						<input class="btn btn-primary btn-add" type="submit" value="Add to Cart">
+					</form>
+				</div>
+			</div>
+			{% endfor %}
+	</div>
+</section>
+
+{% endblock %}
+

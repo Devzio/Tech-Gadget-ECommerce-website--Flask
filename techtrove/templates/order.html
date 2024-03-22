@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<!-- Display products in cart -->
+<section>  
+    <div class="container-xl mt-5">
+        <div class="row col-12 d-flex mt-2 mb-2">
+            <h3>Shopping Cart</h3>
+        </div>
+        <!-- Display Products -->
+        {% for product in order.products %}
+            <div class="row product_card mb-4 no-gutters really-rounded">
+                <div class="card really-rounded">
+                    <div class="card-header d-flex align-items-center">
+                        <!-- Product name -->
+                        <h4 class="mb-0 mr-1">{{ product.name }}</h4>
+                         <!-- Product price -->
+                         <h4 class="ml-auto mb-0">{{ "$%.2f"|format(product.price) }}</h4>
+                    </div>
+                    <div class="card-body really-rounded">
+                        <div class="row row-rounded" style="width: 100%;">
+                            <div class="col-12 col-md-3">
+                                <img class="img-thumbnail" src="{{ url_for('static', filename=('img/' + product.image)) }}">
+                            </div>
+                            <div class="col-12 col-md-8 pt-3 pt-md-0">
+                                <!-- Item Description -->
+                                <div class="d-flex align-items-center">
+                                    <h6 class="mr-2">Colour: </h6> 
+                                    <p class="order-description mb-2">{{ product.color }}</p>
+                                </div>
+                                <p class="card-text">{{ product.description }}</p>
+                                <!-- Product Rating -->
+                                <div class="d-flex ml-auto">
+                                    {% if product.rating|int == 1 %}
+                                        <span class="material-icons icon-star">star_rate</span>
+                                    {% elif product.rating|int == 2 %}
+                                        <span class="material-icons icon-star">star_rate</span>
+                                        <span class="material-icons icon-star">star_rate</span>
+                                    {% elif product.rating|int == 3 %}
+                                        <span class="material-icons icon-star">star_rate</span>
+                                        <span class="material-icons icon-star">star_rate</span>
+                                        <span class="material-icons icon-star">star_rate</span>
+                                    {% elif product.rating|int == 4 %}
+                                        <span class="material-icons icon-star">star_rate</span>
+                                        <span class="material-icons icon-star">star_rate</span>
+                                        <span class="material-icons icon-star">star_rate</span>
+                                        <span class="material-icons icon-star">star_rate</span>
+                                    {% elif product.rating|int == 5 %}
+                                        <span class="material-icons icon-star">star_rate</span>
+                                        <span class="material-icons icon-star">star_rate</span>
+                                        <span class="material-icons icon-star">star_rate</span>
+                                        <span class="material-icons icon-star">star_rate</span>
+                                        <span class="material-icons icon-star">star_rate</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-1 pt-3 pt-md-0 d-flex flex-column">    
+                                <!-- Delete item button -->
+                                <form method="POST" action="{{url_for('main.deleteorderitem')}}" class="mt-auto ml-auto">
+                                    <input type="hidden" id="id" name="id" value="{{product.id}}">
+                                    <button type="submit" value="Delete" class="btn btn-primary btn-delete mb-3">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </button>
+                                </form> 
+                            </div>
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+             
+        <!-- Total price -->
+        <section class="mb-5">
+            <div class="row col-12 d-flex no-gutters p-0 ">
+                <div class="my-2 pt-2 px-3 pb-1 bg-dark m-auto ml-md-auto mr-md-0 mb-md-3 really-rounded">
+                    <h4 class="color-yellow">Total ({{ session['count_id'] - 1}} items): {{ "$%.2f"|format(totalprice) }}</h4>
+                </div>
+            </div>
+            <div class="row col-12 d-flex mt-2 mb-4 no-gutters p-0 flex-column flex-md-row">
+                <!-- Back to Home button -->
+                <a href="{{ url_for('main.index', _anchor='cities_anchor') }}" class="td-none m-auto m-md-0">
+                    <button class="btn btn-primary d-flex align-items-center mt-2">
+                        <span class="material-symbols-outlined mr-2">home</span>Home
+                    </button>
+                </a>
+                <!-- Empty Cart Button -->
+                <a href="{{ url_for('main.deleteorder') }}" class="td-none ml-0 m-auto m-md-0 mr-md-2 ml-md-auto">
+                    <button class="btn btn-primary d-flex align-items-center mt-2">
+                        <span class="material-symbols-outlined mr-2">clear_all</span>Empty Cart
+                    </button>
+                </a>
+                <!-- Checkout Button -->
+                <a href="{{ url_for('main.checkout') }}" class="td-none m-auto m-md-0">
+                    <button class="btn btn-primary d-flex align-items-center mt-2">
+                        <span class="material-symbols-outlined mr-2">shopping_cart</span>Checkout
+                    </button>       
+                </a>     
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}
+

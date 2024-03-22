@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+  {% block main %}
+  
+  {% for product in products %}
+  <div class="container-fluid">
+    <div class="container-xl mt-5 pt-2 ">
+      <div class="row">
+        <div class="col-12 col-lg-5">
+          <div class="img-wrapper">
+            <div class="img-zoom-container d-flex flex-column">
+              <img id="myimage" src={{url_for('static', filename='img/'+product.image)}} class="mb-2">
+              <small class="text-muted mb-2 mx-auto pr-4 d-none d-lg-block">Roll over image to zoom in</small>
+              <div id="myresult" class="img-zoom-result d-none d-md-block"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-7 px-2 p-lg-0 ">
+          <h2 class="mt-4 h4-sm">{{ product.name }}</h2>
+          <div class="card product_card mt-4 really-rounded">
+            <div class="card-header pt-3 d-flex align-items-center mb-2">
+              <h3 class="d-flex mb-0">{{ "$%.2f"|format(product.price) }} <span class="badge badge-success ml-2 mb-1">Sale</span></h3>
+              
+              <div class="d-flex ml-auto">
+                {% if product.rating|int == 1 %}
+                  <span class="material-icons icon-star">star_rate</span>
+                {% elif product.rating|int == 2 %}
+                  <span class="material-icons icon-star">star_rate</span>
+                  <span class="material-icons icon-star">star_rate</span>
+                {% elif product.rating|int == 3 %}
+                  <span class="material-icons icon-star">star_rate</span>
+                  <span class="material-icons icon-star">star_rate</span>
+                  <span class="material-icons icon-star">star_rate</span>
+                {% elif product.rating|int == 4 %}
+                  <span class="material-icons icon-star">star_rate</span>
+                  <span class="material-icons icon-star">star_rate</span>
+                  <span class="material-icons icon-star">star_rate</span>
+                  <span class="material-icons icon-star">star_rate</span>
+                {% elif product.rating|int == 5 %}
+                  <span class="material-icons icon-star">star_rate</span>
+                  <span class="material-icons icon-star">star_rate</span>
+                  <span class="material-icons icon-star">star_rate</span>
+                  <span class="material-icons icon-star">star_rate</span>
+                  <span class="material-icons icon-star">star_rate</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="p-4">
+              <div class="row mt-4">
+                <div class="col-4 col-lg-6"><h5>Colour:</h5></div>
+                <div class="col-8 col-lg-6">
+                  <div class="input-group mb-3">
+                    
+                    <!-- <select class="custom-select" id="inputGroupSelect01">
+                      <option selected value="1">Bay</option>
+                      <option value="2">Onix</option>
+                      <option value="3">Porcelain</option>
+                    </select> -->
+                    <p class="description ml-auto">{{ product.color }}</p>
+
+                  </div>
+                </div>
+              </div>
+      
+              <!-- <div class="row">
+                <div class="col-4 col-lg-6"><b>Type:</b></div>
+                <div class="col-8 col-lg-6">
+                  <div class="input-group mb-3">
+                    <select class="custom-select" id="inputGroupSelect01">
+                      <option selected value="1">128GB + 12GB RAM</option>
+                      <option value="2">256GB + 12GB RAM</option>
+                    </select>
+                  </div>
+                </div>
+              </div> -->
+      
+              <!-- <div class="row">
+                <div class="col-6 col-lg-8"><b>Quantity:</b></div>
+                <div class="col-6 col-lg-4">
+                  <div class="input-group mb-3 d-flex">
+                    <div class="input-group-prepend ml-auto">
+                      <span class="input-group-text quantity-button">
+                        <span class="material-icons fs-small">remove</span>
+                      </span>
+                    </div>
+                    <input type="number" placeholder="0" class="form-control quantity-input" aria-label="Quantity">
+                    <div class="input-group-append">
+                      <span class="input-group-text quantity-button">
+                        <span class="material-icons fs-small">add</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+              <h5 class="mt-2">Product Information</h5>
+            <hr>
+
+            <p class="description">{{ product.description }}</p>
+
+              <div class="d-flex">
+                <form action="{{ url_for('main.order') }}" class="ml-auto">
+                  <input type="hidden" id="product_id" name="product_id" value="{{ product.id }}">
+                  <button class="btn btn-primary btn-product-add" type="submit" value="Add to Cart">
+                    <span class="material-symbols-outlined mr-2">add</span>
+                    Add To Cart
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+          
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <!-- Ad Banner -->
+  <section class="container-lg my-5">
+    <img src="{{url_for('static', filename='img/banner-5.png')}}" class="d-block w-100 ml-0 ml-lg-3" alt="Banner Footer">
+  </section>
+
+  <script src="{{url_for('static',filename='/js/imageZoom.js')}}"></script>
+  <script>imageZoom("myimage","myresult")</script>
+  {% endblock %}
